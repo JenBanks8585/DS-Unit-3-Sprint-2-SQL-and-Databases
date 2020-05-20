@@ -1,0 +1,174 @@
+Assignment - Part 1, Querying a Database
+
+1. How many total Characters are there? 302
+
+    SELECT 
+        COUNT(DISTINCT character_id)
+    FROM charactercreator_character
+
+
+2. How many of each specific subclass? mage=108, thief=51, cleric=75, fighter 68
+
+    SELECT 
+        COUNT(DISTINCT character_ptr_id)
+    FROM charactercreator_mage
+
+    SELECT 
+        COUNT(DISTINCT character_ptr_id)
+    FROM charactercreator_thief
+
+    SELECT 
+        COUNT(DISTINCT character_ptr_id)
+    FROM charactercreator_cleric
+    
+    SELECT 
+        COUNT(DISTINCT character_ptr_id)
+    FROM charactercreator_fighter
+    
+    
+3. How many total Items? 174
+
+    SELECT 
+        COUNT(item_id)
+    FROM armory_item
+
+
+4. How many of the Items are weapons? How many are not? 37
+
+    SELECT 
+        COUNT(item_ptr_id)
+    FROM armory_weapon
+
+5. How many Items does each character have? (Return first 20 rows)
+
+    SELECT
+        ccc.character_id,
+        ccc.name,
+        count(cci.item_id) as item_count_per_char
+    FROM
+        charactercreator_character as ccc
+    LEFT JOIN charactercreator_character_inventory as cci 
+        on ccc.character_id = cci.character_id
+    LEFT JOIN armory_item as ai 
+        on cci.item_id = ai.item_id
+    GROUP by
+        ccc.name
+    ORDER BY
+        item_count_per_char DESC
+    LIMIT
+        20
+        
+
+| character_id | name                          | item_count_per_char |
+|--------------|-------------------------------|---------------------|
+|           38 | Doloribus dolore r            | 5                   |
+|          129 | Dolores ea velit mi           | 5                   |
+|          206 | Dolores aliquid inv           | 5                   |
+|          247 | Dolorem quaerat sunt          | 5                   |
+|          114 | Dolore magni                  | 5                   |
+|          100 | Dicta enim debitis accusantiu | 5                   |
+|          119 | Cupidi                        | 5                   |
+|           85 | Culpa repellat unde           | 5                   |
+|           35 | Autem mollitia fuga lauda     | 5                   |
+|          181 | Autem eos voluptates off      | 5                   |
+|          259 | Atque aspernatur possi        | 5                   |
+|          280 | Asperi                        | 5                   |
+|           86 | Architecto i                  | 5                   |
+|          160 | Amet quo fugit aliquam sequi  | 5                   |
+|          302 | Aliquam n                     | 5                   |
+|          238 | Aliqu                         | 5                   |
+|          194 | Acc                           | 5                   |
+|           27 | Ab voluptas se                | 5                   |
+|           49 | Quas                          | 6                   |
+|           55 | Debit                         | 7                   |
+
+
+
+6. How many Weapons does each character have? (Return first 20 rows)
+
+    SELECT
+        ccc.character_id,
+        ccc.name,
+        count(aw.item_ptr_id) as weapon_per_char
+    FROM
+        charactercreator_character as ccc
+    LEFT JOIN charactercreator_character_inventory as cci 
+        on ccc.character_id = cci.character_id
+    LEFT JOIN armory_item as ai 
+        on cci.item_id = ai.item_id
+    LEFT JOIN armory_weapon as aw 
+        on ai.item_id = aw.item_ptr_id
+    GROUP by
+        ccc.name
+    ORDER BY
+        weapon_per_char DESC
+    LIMIT
+        20
+        
+| character_id | name                           | weapon_per_char |
+|--------------|--------------------------------|-----------------|
+|           27 | Ab voluptas se                 | 3               |
+|           55 | Debit                          | 3               |
+|          227 | Dignissimos a                  | 3               |
+|          142 | Explicabo recusandae ma        | 3               |
+|          199 | Illo en                        | 3               |
+|           70 | Perferendis commodi null       | 3               |
+|           63 | Reprehenderit commodi eius     | 3               |
+|           36 | Sint quibusdam ob              | 3               |
+|          194 | Acc                            | 2               |
+|          238 | Aliqu                          | 2               |
+|          183 | Architecto repudian            | 2               |
+|          280 | Asperi                         | 2               |
+|            5 | At id recusandae expl          | 2               |
+|           35 | Autem mollitia fuga lauda      | 2               |
+|          128 | Consequatur quis recusandae qu | 2               |
+|           85 | Culpa repellat unde            | 2               |
+|           59 | Debitis sit ratione eos nam    | 2               |
+|           57 | Deleniti qui quae quidem       | 2               |
+|          247 | Dolorem quaerat sunt           | 2               |
+|          206 | Dolores aliquid inv            | 2               |
+
+
+
+7. On average, how many Items does each Character have? 3.02356902356902
+
+    SELECT AVG(item_count_per_char) as avg_item
+    FROM (
+    SELECT
+        ccc.character_id,
+        ccc.name,
+        count(cci.item_id) as item_count_per_char
+    FROM
+        charactercreator_character as ccc
+    LEFT JOIN charactercreator_character_inventory as cci 
+        on ccc.character_id = cci.character_id
+    LEFT JOIN armory_item as ai 
+        on cci.item_id = ai.item_id
+    GROUP by
+        ccc.name  
+        )
+
+
+8. On average, how many Weapons does each character have?  0.683501683501684
+
+    SELECT AVG(weapon_per_char) as avg_weapon
+    FROM (
+    SELECT
+        ccc.character_id,
+        ccc.name,
+    count(aw.item_ptr_id) as weapon_per_char
+    FROM
+        charactercreator_character as ccc
+    LEFT JOIN charactercreator_character_inventory as cci 
+        on ccc.character_id = cci.character_id
+    LEFT JOIN armory_item as ai 
+        on cci.item_id = ai.item_id
+    LEFT JOIN armory_weapon as aw 
+        on ai.item_id = aw.item_ptr_id
+    GROUP by ccc.name
+        )
+
+
+
+
+
