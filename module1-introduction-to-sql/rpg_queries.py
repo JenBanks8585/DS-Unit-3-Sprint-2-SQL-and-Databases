@@ -16,11 +16,11 @@ cursor = connection.cursor()
 query1 = """
 SELECT 
     COUNT(DISTINCT character_id)
-FROM charactercreator_character
+FROM charactercreator_character;
 """
-result1 = cursor.execute(query1).fetchall()
+result1 = cursor.execute(query1).fetchone()
 print('')
-print(f'1. How many total Characters are there?, {result1}')
+print(f'1. How many total Characters are there?, {result1[0]}')
 
 
 # 2. How many total Items? 
@@ -28,42 +28,42 @@ print(f'1. How many total Characters are there?, {result1}')
 query2a = """
     SELECT 
         COUNT(DISTINCT cm.character_ptr_id)
-    FROM charactercreator_mage as cm
+    FROM charactercreator_mage as cm;
 """
-result2a = cursor.execute(query2a).fetchall()
-print(f'2a. Number of mages, {result2a}')
+result2a = cursor.execute(query2a).fetchone()
+print(f'2a. Number of mages, {result2a[0]}')
 
 query2b = """
     SELECT 
         COUNT(DISTINCT ccn.mage_ptr_id)
-    FROM charactercreator_necromancer as ccn
+    FROM charactercreator_necromancer as ccn;
 """
-result2b = cursor.execute(query2b).fetchall()
-print(f'2b. Number of mage_necromancer, {result2b}')
+result2b = cursor.execute(query2b).fetchone()
+print(f'2b. Number of mage_necromancer, {result2b[0]}')
 
 query2c = """
     SELECT 
         COUNT(DISTINCT ct.character_ptr_id)
-    FROM charactercreator_thief as ct 
+    FROM charactercreator_thief as ct;
 """
-result2c = cursor.execute(query2c).fetchall()
-print(f'2c. Number of thieves, {result2c}')
+result2c = cursor.execute(query2c).fetchone()
+print(f'2c. Number of thieves, {result2c[0]}')
 
 query2d = """
     SELECT 
         COUNT(DISTINCT cc.character_ptr_id)        
-    FROM charactercreator_cleric as cc 
+    FROM charactercreator_cleric as cc; 
 """
-result2d = cursor.execute(query2d).fetchall()
-print(f'2d. Number of mage_necromancer, {result2d}')
+result2d = cursor.execute(query2d).fetchone()
+print(f'2d. Number of mage_necromancer, {result2d[0]}')
 
 query2e = """
      SELECT 
         COUNT(DISTINCT cf.character_ptr_id)
-    FROM charactercreator_fighter as cf 
+    FROM charactercreator_fighter as cf; 
 """
-result2e = cursor.execute(query2e).fetchall()
-print(f'2e. Number of fighters, {result2e}')
+result2e = cursor.execute(query2e).fetchone()
+print(f'2e. Number of fighters, {result2e[0]}')
 
 
 # 3. How many total Items? 
@@ -71,20 +71,20 @@ print(f'2e. Number of fighters, {result2e}')
 query3 = """
 SELECT 
 COUNT(item_id)
-FROM armory_item
+FROM armory_item;
 """
-result3 = cursor.execute(query3).fetchall()
-print(f'3. How many total Items?, {result3}')
+result3 = cursor.execute(query3).fetchone()
+print(f'3. How many total Items?, {result3[0]}')
 
 # 4. How many of the Items are weapons? How many are not?? 
 
 query4a = """
     SELECT 
         COUNT(item_ptr_id)
-    FROM armory_weapon
+    FROM armory_weapon;
 """
-result4a = cursor.execute(query4a).fetchall()
-print(f'4a. How many of the Items are weapons?, {result4a}')
+result4a = cursor.execute(query4a).fetchone()
+print(f'4a. How many of the Items are weapons?, {result4a[0]}')
 
 query4b = """
     SELECT
@@ -92,10 +92,10 @@ query4b = """
     FROM armory_item) 
     -
     (SELECT COUNT(item_ptr_id)
-    FROM armory_weapon))
+    FROM armory_weapon));
 """
-result4b = cursor.execute(query4b).fetchall()
-print(f'4b. How many of the Items are NOT weapons?, {result4b}')
+result4b = cursor.execute(query4b).fetchone()
+print(f'4b. How many of the Items are NOT weapons?, {result4b[0]}')
 
 # 5. How many Items does each character have? (Return first 20 rows) 
 
@@ -115,7 +115,7 @@ query5 = """
     ORDER BY
         item_count_per_char DESC
     LIMIT
-        20
+        20;
 """
 cols= ['character_id', 'name', 'itemcount_per_char']
 result5 = pd.DataFrame(data=cursor.execute(query5).fetchall(), columns = cols)
@@ -144,7 +144,7 @@ query6 = """
     ORDER BY
         weapon_per_char DESC
     LIMIT
-        20
+        20;
 """
 cols= ['character_id', 'name', 'weaponcount_per_char']
 result6 = pd.DataFrame(data=cursor.execute(query6).fetchall(), columns = cols)
@@ -171,11 +171,11 @@ query7 = """
         on cci.item_id = ai.item_id
      GROUP by
         ccc.character_id
-        )
+        );
 """
-result7 = cursor.execute(query7).fetchall()
+result7 = cursor.execute(query7).fetchone()
 print('')
-print(f'7. On average, how many Items does each Character have?, {result7}')
+print(f'7. On average, how many Items does each Character have?, {result7[0]}')
 
 # 8. On average, how many Weapons does each character have? 
 
@@ -196,8 +196,8 @@ query8 = """
     LEFT JOIN armory_weapon as aw 
         on ai.item_id = aw.item_ptr_id
     GROUP by
-        ccc.character_id)
+        ccc.character_id);
 """
-result8 = cursor.execute(query8).fetchall()
-print(f'8. On average, how many Weapons does each character have? , {result8}')
+result8 = cursor.execute(query8).fetchone()
+print(f'8. On average, how many Weapons does each character have? , {result8[0]}')
 print('')

@@ -15,7 +15,7 @@ query1 = """
 SELECT count(Sports)
 FROM buddymove_holidayiq
 """
-result1 = cursor.execute(query1).fetchall()
+result1 = cursor.execute(query1).fetchone()
 print('')
 print(f'1. Count how many rows you have?, {result1}')
 
@@ -27,7 +27,7 @@ FROM buddymove_holidayiq as bh
 WHERE bh.Nature >= 100
 AND bh.Shopping >= 100
 """
-result2 = cursor.execute(query2).fetchall()
+result2 = cursor.execute(query2).fetchone()
 print(f'2. Nature & Shopping >= 100, {result2}')
 
 # 3. (Stretch) What are the average number of reviews for each category? 
@@ -56,12 +56,12 @@ query3f = """
 SELECT avg(Theatre)
 FROM buddymove_holidayiq 
 """
-result3a = cursor.execute(query3a).fetchall()
-result3b = cursor.execute(query3b).fetchall()
-result3c = cursor.execute(query3c).fetchall()
-result3d = cursor.execute(query3d).fetchall()
-result3e = cursor.execute(query3e).fetchall()
-result3f = cursor.execute(query3f).fetchall()
+result3a = cursor.execute(query3a).fetchone()
+result3b = cursor.execute(query3b).fetchone()
+result3c = cursor.execute(query3c).fetchone()
+result3d = cursor.execute(query3d).fetchone()
+result3e = cursor.execute(query3e).fetchone()
+result3f = cursor.execute(query3f).fetchone()
 print(f'3a Average num reviews for Shopping, {result3a}')
 print(f'3b Average num reviews for Sports, {result3b}')
 print(f'3c Average num reviews for Religious, {result3c}')
