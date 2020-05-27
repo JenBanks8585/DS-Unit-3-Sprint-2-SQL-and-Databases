@@ -8,6 +8,11 @@ verify_ssl = true
 [packages]
 python-dotenv = "*"
 psycopg2-binary = "*"
+pandas = "*"
+dnspython = "*"
+mongo = "*"
+pymongo = "*"
+mongodb = "*"
 
 [requires]
 python_version = "3.7"
