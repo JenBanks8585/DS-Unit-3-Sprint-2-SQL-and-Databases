@@ -9,9 +9,7 @@ import numpy as np
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 load_dotenv()
 
-
 #Titanic Data
-
 
 DB_HOST_TITANIC = os.getenv("DB_HOST_TITANIC", default="Hey hey DB HOST pls")
 DB_USER_TITANIC = os.getenv("DB_USER_TITANIC", default="Hey hey DB USER pls")
@@ -19,7 +17,7 @@ DB_NAME_TITANIC = os.getenv("DB_NAME_TITANIC", default="Hey hey DB NAME pls")
 DB_PASSWORD_TITANIC = os.getenv("DB_PASSWORD_TITANIC", default="Hey hey DB PASSWORD pls")
 
 print(DB_HOST_TITANIC)
-exit()
+
 
 #Connecting to a database
 CONNECTION_titanic = psycopg2.connect(dbname=DB_NAME_TITANIC, user=DB_USER_TITANIC, password=DB_PASSWORD_TITANIC, host=DB_HOST_TITANIC)
@@ -33,7 +31,7 @@ print('CURSOR_titanic', type(CURSOR_titanic))
 DATA_PATH= os.path.join(os.path.dirname(__file__), "titanic.csv")
 
 df = pd.read_csv(DATA_PATH)
-df.index +=1
+#df.index +=1
 print(type(df))
 
 #Grabbing column names
@@ -64,7 +62,7 @@ print("SQL:", query)
 CURSOR_titanic.execute(query)
 
 #using df.to_records
-values=list(df.to_records(index=True))
+values=list(df.to_records(index=False))
 print(type(values))
 
 #Inserting body into titanic_table

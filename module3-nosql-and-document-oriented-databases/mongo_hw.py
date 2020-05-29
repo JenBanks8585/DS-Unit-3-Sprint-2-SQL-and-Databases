@@ -3,10 +3,9 @@ import pymongo
 import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
-import dns.resolver
 
 load_dotenv()
-#db = client.test
+
 
 
 DB_USER = os.getenv("MONGO_USER", default="OOPS")
@@ -21,8 +20,9 @@ print("URI:", connection_uri)
 client = pymongo.MongoClient(connection_uri)
 print("----------------")
 print("CLIENT:", type(client), client)
+print("DB NAMES:", client.list_database_names())
 
-breakpoint()
+
 db = client.inclass_db # "test_database" or whatever you want to call it
 print("----------------")
 print("DB:", type(db), db)
